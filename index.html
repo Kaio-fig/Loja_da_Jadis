@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Loja da Jades - Layout Corrigido</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden; /* Esconde barras de rolagem da janela inteira */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        user-select: none;
+    }
+
+    /* --- O MUNDO GIGANTE --- */
+    #world-container {
+        display: flex;
+        width: 200vw;
+        height: 100vh;
+        transition: transform 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .room {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    #loja {
+        background-color: #2c241b;
+        color: white;
+        border-right: 5px solid #1a1a1a;
+        /* --- A CORREÇÃO ESTÁ AQUI EMBAIXO --- */
+        overflow: hidden; /* Isso impede que o painel "vaze" para a tela 2 */
+    }
+
+    #taro {
+        background-color: #1a1a2e;
+        color: #d4af37;
+        position: relative; /* Para posicionar elementos internos */
+    }
+
+    /* --- OBJETOS INTERATIVOS --- */
+    .interact-obj {
+        position: absolute;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px black;
+    }
+
+    .interact-obj:hover {
+        transform: scale(1.05) translateY(-5px);
+        filter: brightness(1.2);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        z-index: 10;
+    }
+
+    /* Caixa de Alquímicos */
+    #box-alquimia {
+        width: 140px; height: 90px;
+        bottom: 25%; left: 15%;
+        background-color: #5d4037;
+        border: 2px solid #3e2723;
+        border-radius: 4px;
+    }
+
+    /* Prateleira de Poções */
+    #shelf-pocoes {
+        width: 120px; height: 250px;
+        bottom: 35%; left: 55%;
+        background-color: #4e342e;
+        border: 2px solid #3e2723;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    
+    .shelf-item { font-size: 20px; text-align: center; } 
+
+    /* --- PAINEL DE COMPRAS --- */
+    #shop-panel {
+        position: absolute;
+        top: 0; 
+        right: -400px; /* Começa escondido FORA da div #loja */
+        width: 380px;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.98);
+        border-left: 3px solid #d4af37;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 100;
+        color: #ddd;
+    }
+
+    #shop-panel.open { right: 0; }
+
+    /* Cabeçalho */
+    .panel-header {
+        padding: 20px;
+        border-bottom: 1px solid #555;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(40, 40, 40, 0.5);
+    }
+    .panel-header h2 { margin: 0; color: #d4af37; font-size: 1.5rem; }
+    .close-btn { cursor: pointer; font-size: 1.5rem; color: #ff5555; transition: 0.2s;}
+    .close-btn:hover { color: #ff0000; transform: scale(1.2); }
+
+    /* Área de Itens */
+    #items-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    /* Rodapé (Totalizador) */
+    .panel-footer {
+        padding: 20px;
+        background: #111;
+        border-top: 1px solid #d4af37;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+        font-family: 'Courier New', monospace;
+    }
+
+    .slots-row {
+        font-size: 0.9rem;
+        color: #aaa;
+        text-align: right;
+    }
+
+    button.finalize-btn {
+        background: #d4af37;
+        color: #1a1a1a;
+        border: none;
+        padding: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        margin-top: 5px;
+        border-radius: 4px;
+        transition: 0.2s;
+    }
+    button.finalize-btn:hover { background: #fff; }
+
+    /* Estilo dos Itens */
+    .shop-item {
+        background: #333;
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid transparent;
+    }
+    .shop-item:hover { border-color: #555; background: #3a3a3a; }
+
+    .item-info h4 { margin: 0 0 5px 0; color: #fff; }
+    .item-details { font-size: 0.8rem; color: #bbb; }
+
+    .item-controls { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+        background: #555; border: none; color: white;
+        width: 30px; height: 30px; border-radius: 4px;
+        cursor: pointer; font-weight: bold;
+    }
+    .qty-btn:hover { background: #777; }
+
+    /* Setas de Navegação */
+    .nav-arrow {
+        position: absolute; top: 50%; right: 20px;
+        font-size: 3rem; cursor: pointer; color: white;
+        z-index: 50; text-shadow: 0 0 10px black;
+    }
+    .back-arrow { left: 20px; right: auto; transform: scaleX(-1); }
+
+</style>
+</head>
+<body>
+
+<div id="world-container">
+    
+    <div id="loja" class="room">
+        <h1 style="position: absolute; top: 20px; left: 20px;">Loja da Jades</h1>
+        
+        <div style="position: absolute; bottom: 20%; left: 40%; font-size: 100px;">🐦‍⬛</div>
+
+        <div id="box-alquimia" class="interact-obj" onclick="abrirLoja('alquimicos')">
+            <span>⚗️</span>
+        </div>
+
+        <div id="shelf-pocoes" class="interact-obj" onclick="abrirLoja('pocoes')">
+            <div class="shelf-item">🍷</div>
+            <div class="shelf-item">🧪</div>
+            <div class="shelf-item">🏺</div>
+        </div>
+
+        <div class="nav-arrow" onclick="moverCenario('taro')">➤</div>
+
+        <div id="shop-panel">
+            <div class="panel-header">
+                <h2 id="panel-title">Itens</h2>
+                <span class="close-btn" onclick="fecharLoja()">✖</span>
+            </div>
+
+            <div id="items-container">
+                </div>
+
+            <div class="panel-footer">
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span>T$ <span id="total-price">0</span></span>
+                </div>
+                <div class="slots-row">
+                    Espaço: <span id="total-slots">0</span> slots
+                </div>
+                <button class="finalize-btn" onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="taro" class="room">
+        <h1>Sala do Destino</h1>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px dashed #d4af37; padding: 50px;">
+            [Área 3D dos Dados]
+        </div>
+        <div class="nav-arrow back-arrow" onclick="moverCenario('loja')">➤</div>
+    </div>
+
+</div>
+
+<script>
+    const catalogo = {
+        alquimicos: [
+            { id: 'a1', nome: 'Ácido', preco: 10, espaco: 1 },
+            { id: 'a2', nome: 'Fogo Alquímico', preco: 10, espaco: 1 },
+            { id: 'a3', nome: 'Bálsamo Restaurador', preco: 25, espaco: 1 },
+            { id: 'a4', nome: 'Pó de Cegueira', preco: 50, espaco: 0.5 }
+        ],
+        pocoes: [
+            { id: 'p1', nome: 'Poção de Cura', preco: 50, espaco: 1 },
+            { id: 'p2', nome: 'Poção de Mana', preco: 50, espaco: 1 },
+            { id: 'p3', nome: 'Elixir de Vida', preco: 100, espaco: 1 },
+            { id: 'p4', nome: 'Antídoto', preco: 30, espaco: 1 }
+        ]
+    };
+
+    let carrinho = {}; 
+
+    function abrirLoja(categoria) {
+        const panel = document.getElementById('shop-panel');
+        const container = document.getElementById('items-container');
+        const title = document.getElementById('panel-title');
+
+        title.innerText = categoria === 'alquimicos' ? "Kit de Alquimia" : "Prateleira de Poções";
+        
+        container.innerHTML = ''; 
+
+        catalogo[categoria].forEach(item => {
+            const qtdAtual = carrinho[item.id] || 0;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'shop-item';
+            itemDiv.innerHTML = `
+                <div class="item-info">
+                    <h4>${item.nome}</h4>
+                    <div class="item-details">T$ ${item.preco} | 📦 ${item.espaco}</div>
+                </div>
+                <div class="item-controls">
+                    <button class="qty-btn" onclick="alterarQtd('${item.id}', -1)">-</button>
+                    <span id="qtd-${item.id}" style="width:20px; text-align:center">${qtdAtual}</span>
+                    <button class="qty-btn" onclick="alterarQtd('${item.id}', 1)">+</button>
+                </div>
+            `;
+            container.appendChild(itemDiv);
+        });
+
+        panel.classList.add('open');
+        atualizarTotais(); 
+    }
+
+    function fecharLoja() {
+        document.getElementById('shop-panel').classList.remove('open');
+    }
+
+    function alterarQtd(idItem, delta) {
+        if (!carrinho[idItem]) carrinho[idItem] = 0;
+        carrinho[idItem] += delta;
+        if (carrinho[idItem] < 0) carrinho[idItem] = 0;
+
+        const displayQtd = document.getElementById(`qtd-${idItem}`);
+        if (displayQtd) displayQtd.innerText = carrinho[idItem];
+
+        atualizarTotais();
+    }
+
+    function atualizarTotais() {
+        let totalPreco = 0;
+        let totalEspaco = 0;
+
+        for (const [id, qtd] of Object.entries(carrinho)) {
+            if (qtd > 0) {
+                let item = catalogo.alquimicos.find(i => i.id === id) || catalogo.pocoes.find(i => i.id === id);
+                if (item) {
+                    totalPreco += item.preco * qtd;
+                    totalEspaco += item.espaco * qtd;
+                }
+            }
+        }
+
+        document.getElementById('total-price').innerText = totalPreco;
+        document.getElementById('total-slots').innerText = totalEspaco;
+    }
+
+    function finalizarCompra() {
+        if (document.getElementById('total-price').innerText == '0') {
+            alert("Carrinho vazio!");
+            return;
+        }
+        alert(`Compra finalizada!\nTotal gasto: T$ ${document.getElementById('total-price').innerText}`);
+        carrinho = {}; 
+        atualizarTotais(); 
+        fecharLoja();
+    }
+
+    function moverCenario(destino) {
+        const container = document.getElementById('world-container');
+        if (destino === 'taro') {
+            container.style.transform = "translateX(-100vw)";
+            fecharLoja(); // Fecha a loja ao sair da sala
+        } else {
+            container.style.transform = "translateX(0)";
+        }
+    }
+</script>
+
+</body>
+</html>
