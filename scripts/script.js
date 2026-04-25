@@ -63,10 +63,22 @@ const catalogo = {
         { id: 'po_36', nome: 'Invisibilidade', preco: 1080, espaco: 0.5, descricao: "...", imagem: "invis.png" },
         { id: 'po_37', nome: 'Bola de Fogo (10d6)', preco: 1470, espaco: 0.5, descricao: "...", imagem: "bola2.png" },
         { id: 'po_38', nome: 'Curar Ferimentos (11d8+11)', preco: 3000, espaco: 0.5, descricao: "...", imagem: "cura4.png" }
+    ],
+    venenos: [
+        { id: 'v1', nome: 'Beladona', preco: 1500, espaco: 0.5, descricao: "Dano massivo se ingerido.", imagem: "beladona.png" },
+        { id: 'v2', nome: 'Bruma sonolenta', preco: 150, espaco: 0.5, descricao: "Faz o alvo adormecer se falhar no teste.", imagem: "bruma.png" },
+        { id: 'v3', nome: 'Cicuta', preco: 60, espaco: 0.5, descricao: "Causa fraqueza extrema e dano.", imagem: "cicuta.png" },
+        { id: 'v4', nome: 'Essência de sombra', preco: 100, espaco: 0.5, descricao: "Causa dano e cegueira temporária.", imagem: "essencia_sombra.png" },
+        { id: 'v5', nome: 'Névoa tóxica', preco: 30, espaco: 0.5, descricao: "Nuvem de gás venenoso em área.", imagem: "nevoa.png" },
+        { id: 'v6', nome: 'Peçonha comum', preco: 15, espaco: 0.5, descricao: "Perde 1d12 PV se falhar no teste Fortitude.", imagem: "peconha1.png" },
+        { id: 'v7', nome: 'Peçonha concentrada', preco: 90, espaco: 0.5, descricao: "Versão mais letal da peçonha comum.", imagem: "peconha2.png" },
+        { id: 'v8', nome: 'Peçonha potente', preco: 600, espaco: 0.5, descricao: "Veneno mortífero de ação rápida.", imagem: "peconha3.png" },
+        { id: 'v9', nome: 'Pó de lich', preco: 3000, espaco: 0.5, descricao: "Pó necromântico de altíssimo perigo.", imagem: "po_lich.png" },
+        { id: 'v10', nome: 'Riso de Nimb', preco: 150, espaco: 0.5, descricao: "Causa alucinações e confusão mental.", imagem: "riso_nimb.png" }
     ]
 };
 
-let carrinho = {}; 
+let carrinho = {};
 
 function encontrarItem(idDesejado) {
     for (const categoria in catalogo) {
@@ -76,22 +88,35 @@ function encontrarItem(idDesejado) {
     return null;
 }
 
+// ATUALIZADO: Agora cria títulos entre as categorias
 function abrirLoja(listaCategorias, titulo) {
-    console.log("Abrindo a categoria: ", listaCategorias);
-    
     const panel = document.getElementById('shop-panel');
     const container = document.getElementById('items-container');
-    
+
     document.getElementById('panel-title').innerText = titulo;
-    container.innerHTML = ''; 
+    container.innerHTML = '';
 
     listaCategorias.forEach(categoria => {
-        if(catalogo[categoria]) {
+        if (catalogo[categoria] && catalogo[categoria].length > 0) {
+
+            // 1. Cria o Separador Visual (O "Vidro")
+            let nomeBonito = categoria.toUpperCase();
+            if (categoria === 'venenos') nomeBonito = "ÁREA RESTRITA: VENENOS";
+            if (categoria === 'pocoes') nomeBonito = "POÇÕES COMUNS";
+
+            const divider = document.createElement('div');
+            divider.className = 'category-divider';
+            divider.innerText = `[ ${nomeBonito} ]`;
+            container.appendChild(divider);
+
+            // 2. Adiciona os itens da categoria
             catalogo[categoria].forEach(item => {
                 const qtdAtual = carrinho[item.id] || 0;
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'shop-item';
-                
+
+                // Se for veneno, adiciona a classe CSS extra para ficar verde
+                itemDiv.className = categoria === 'venenos' ? 'shop-item item-veneno' : 'shop-item';
+
                 itemDiv.innerHTML = `
                     <div class="item-info">
                         <h4>${item.nome}</h4>
@@ -112,7 +137,7 @@ function abrirLoja(listaCategorias, titulo) {
     });
 
     panel.classList.add('open');
-    atualizarTotais(); 
+    atualizarTotais();
 }
 
 function fecharLoja() {
@@ -136,7 +161,7 @@ function atualizarTotais() {
 
     for (const [id, qtd] of Object.entries(carrinho)) {
         if (qtd > 0) {
-            const item = encontrarItem(id); 
+            const item = encontrarItem(id);
             if (item) {
                 totalPreco += item.preco * qtd;
                 totalEspaco += item.espaco * qtd;
@@ -154,7 +179,7 @@ function finalizarCompra() {
         return;
     }
     alert(`Compra finalizada com a Jades!\nTotal gasto: T$ ${document.getElementById('total-price').innerText}`);
-    carrinho = {}; 
-    atualizarTotais(); 
+    carrinho = {};
+    atualizarTotais();
     fecharLoja();
 }

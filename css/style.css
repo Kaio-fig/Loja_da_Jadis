@@ -78,6 +78,26 @@ body {
     text-align: center;
 }
 
+/* --- SEPARADOR DE CATEGORIAS (O "Vidro") --- */
+.category-divider {
+    text-align: center;
+    color: #a8b5b2; /* Cor de vidro/metal */
+    border-bottom: 2px dashed #555;
+    margin: 25px 0 15px 0;
+    padding-bottom: 5px;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+/* Efeito visual de perigo para os venenos */
+.item-veneno {
+    border-left: 3px solid #2ecc71; /* Borda verde tóxica */
+    background: #1a251e; /* Fundo levemente esverdeado */
+}
+
 /* --- PAINEL DE COMPRAS --- */
 #shop-panel {
     position: absolute;
