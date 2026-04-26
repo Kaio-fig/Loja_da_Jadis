@@ -183,3 +183,5 @@ function finalizarCompra() {
     atualizarTotais();
     fecharLoja();
 }
+
+export default catalogo;

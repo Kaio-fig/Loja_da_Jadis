@@ -17,11 +17,14 @@ Em vez de apenas riscar números em uma folha de papel, os jogadores podem inter
 
 ## 🛠️ Arquitetura e Tecnologias
 
-Este projeto foi construído focando em leveza e performance rodando diretamente no navegador, sem necessidade de servidores complexos. Utilizamos a "Trindade da Web" (Vanilla):
+## 🛠️ Arquitetura e Tecnologias
 
-* **HTML5:** Estruturação semântica em camadas (2.5D).
-* **CSS3:** Animações de interatividade (hover, tooltips), flexbox para layout e transições de painel.
-* **JavaScript (ES6):** Lógica de estado do carrinho, banco de dados local do catálogo de itens e manipulação do DOM.
+Este projeto evoluiu de uma estrutura "Vanilla" para uma arquitetura moderna baseada em componentes, garantindo um código muito mais limpo, fácil manutenção e escalabilidade para adicionar centenas de novos itens no futuro.
+
+* **React.js:** Utilizado como a biblioteca principal para a criação de componentes de interface modulares (como as maletas, estantes e o painel do carrinho), além do gerenciamento de estado (soma de T$ e slots) e reatividade instantânea.
+* **Vite:** Ferramenta de build de altíssima performance que gerencia nosso ambiente de desenvolvimento local (*Hot Reload*) e compila o código final.
+* **Node.js (Apenas Dev):** Utilizado exclusivamente como ambiente de desenvolvimento para gerenciar os pacotes via `npm`.
+* **Static Build (Construção Estática Offline):** A grande mágica desta stack! Apesar de usarmos Node/React para programar, o comando de build do Vite "empacota" todo o projeto em arquivos estáticos minificados e otimizados (HTML, CSS e JS puros). Isso permite que a aplicação final rode **100% offline** direto no navegador de qualquer jogador, sem a necessidade de instalar nada ou hospedar em um servidor externo!
 
 ---
 
@@ -36,17 +39,27 @@ Este projeto ganhou vida através da união de código e arte:
 * **Designer e Artista (UI/UX):** Victor Hugo Cunico - *Criador de todos os assets visuais originais, design da personagem Jadis, cenários e ícones dos itens.*
     * https://www.instagram.com/capuccino_descafeinado   
     * https://www.linkedin.com/in/victor-hugo-mendes-art
+    * https://www.artstation.com/user-2569726
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-Como é um projeto Vanilla, é extremamente simples de rodar:
+Existem duas formas de acessar a Loja da Jadis, dependendo se você vai jogar ou ajudar a desenvolver:
 
-1. Faça o clone deste repositório:
+### 🎲 Opção A: Para Jogar (Uso Offline na Mesa)
+Ideal para os jogadores durante a sessão. Custo zero e nenhuma instalação necessária!
+1. Peça ao Mestre/Desenvolvedor a versão compilada do jogo (a pasta chamada `dist`).
+2. Descompacte a pasta no seu computador.
+3. Dê um duplo clique no arquivo `index.html` que está lá dentro.
+4. O sistema abrirá no seu navegador padrão, pronto para as compras!
+
+### 💻 Opção B: Para Desenvolvedores (Modo de Edição)
+Se você quer adicionar novos itens ou mexer no código-fonte:
+1. Faça o clone deste repositório e certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
+2. Abra o terminal na pasta do projeto e instale as dependências:
    ```bash
-   git clone [https://github.com/Kaio-fig/Loja_da_Jadis.git](https://github.com/Kaio-fig/Loja_da_Jadis.git)
-
+   npm install
 
 ⚖️ Direitos Autorais e Aviso Legal
 

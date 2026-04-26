@@ -1,53 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Loja da Jadis - Inventário T20</title>
-    
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>]
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja da Jadis</title>
+  </head>
+  <body>
+    <div id="root"></div>
 
-<div id="world-container">
-    <div id="loja" class="room">
-        <h1 style="position: absolute; top: 20px; left: 20px;">Balcão da Jadis</h1>
-        <div style="position: absolute; bottom: 20%; left: 40%; font-size: 100px;">🐦‍⬛</div>
-
-        <div id="box-preparados" class="interact-obj" onclick="abrirLoja(['preparados'], 'Maleta de Preparados')">
-            <span>⚗️<br>Preparados</span>
-        </div>
-
-        <div id="box-catalisadores" class="interact-obj" onclick="abrirLoja(['catalisadores'], 'Maleta de Catalisadores')">
-            <span>💎<br>Catalisadores</span>
-        </div>
-
-        <div id="shelf-pocoes" class="interact-obj" onclick="abrirLoja(['pocoes', 'venenos'], 'Estante de Frascos')">
-            <div class="shelf-item">🍷</div>
-            <div class="shelf-item">🧪</div>
-            <div class="shelf-item">🏺</div>
-        </div>
-
-        <div id="shop-panel">
-            <div class="panel-header">
-                <h2 id="panel-title">Itens</h2>
-                <span class="close-btn" onclick="fecharLoja()">✖</span>
-            </div>
-            
-            <div id="items-container"></div>
-            
-            <div class="panel-footer">
-                <div class="total-row">
-                    <span>Total:</span>
-                    <span>T$ <span id="total-price">0</span></span>
-                </div>
-                <div class="slots-row">Espaço: <span id="total-slots">0</span> slots</div>
-                <button class="finalize-btn" onclick="finalizarCompra()">Confirmar Compra</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="scripts/script.js"></script>
-
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
