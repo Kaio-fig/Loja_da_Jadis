@@ -35,7 +35,7 @@ Este projeto ganhou vida através da união de código e arte:
 
 * **Designer e Artista (UI/UX):** Victor Hugo Cunico - *Criador de todos os assets visuais originais, design da personagem Jadis, cenários e ícones dos itens.*
     * https://www.instagram.com/capuccino_descafeinado   
-    * https://www.linkedin.com/in/
+    * https://www.linkedin.com/in/victor-hugo-mendes-art
 
 ---
 
@@ -46,3 +46,14 @@ Como é um projeto Vanilla, é extremamente simples de rodar:
 1. Faça o clone deste repositório:
    ```bash
    git clone [https://github.com/Kaio-fig/Loja_da_Jadis.git](https://github.com/Kaio-fig/Loja_da_Jadis.git)
+
+
+⚖️ Direitos Autorais e Aviso Legal
+
+Este é um projeto não-oficial feito de fãs para fãs. A Loja da Jadis foi desenvolvida estritamente para uso pessoal e facilitação de mesas de RPG.
+
+O sistema de regras, nomes de itens, mecânicas, magias e descrições pertencem exclusivamente à Jambô Editora e aos criadores de Tormenta 20.
+
+A arte da interface e da personagem Jadis são propriedades intelectuais do artista Victor Hugo Mendes Cunico, não podendo ser comercializadas sem autorização prévia.
+
+Este projeto não possui fins lucrativos e não pretende infringir os direitos autorais dos detentores da marca Tormenta. Apoie a indústria nacional de RPG adquirindo os livros oficiais no site da Jambô Editora.
