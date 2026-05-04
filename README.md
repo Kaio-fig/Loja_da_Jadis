@@ -17,7 +17,6 @@ Em vez de apenas riscar números em uma folha de papel, os jogadores podem inter
 
 ## 🛠️ Arquitetura e Tecnologias
 
-## 🛠️ Arquitetura e Tecnologias
 
 Este projeto evoluiu de uma estrutura "Vanilla" para uma arquitetura moderna baseada em componentes, garantindo um código muito mais limpo, fácil manutenção e escalabilidade para adicionar centenas de novos itens no futuro.
 
