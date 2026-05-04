@@ -265,3 +265,13 @@ button.finalize-btn {
 button.finalize-btn:hover {
     background: #fff;
 }
+
+/* --- CAMADA DO CENÁRIO (CÂMERA) --- */
+
+.scenario {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    transform-origin: center center;
+    /* A transição será controlada dinamicamente pelo React para não dar lag no scroll */
+}
